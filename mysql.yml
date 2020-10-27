@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: bigha
+      MYSQL_USER: bigha
+      MYSQL_PASSWORD: bigha
+      MYSQL_DATEBASE: spring_batch_basic
+#    volumes:
+#      - data:/Users/bigha/docker-data/mysql/
+    container_name: my_mysql
+    ports:
+      - 3306:3306
