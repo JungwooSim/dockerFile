@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  jenkins:
+    image: jenkins:latest # jenkins install From docker hub
+    container_name: my_jenkins
+    restart: always
+    ports:
+      - 8080:8080
+      - 9090:9090
+      - 50000:50000
+    volumes:
+      - ~/docker-file-share/jenkins:/var/jenkins_home
+    environment:
+      TZ: "Asia/Seoul"
+
+
