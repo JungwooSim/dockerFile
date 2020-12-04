@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  my_java:
+    image: openjdk:8u212-jdk
+    container_name: my_java
+    restart: always
+    ports:
+      - 8002:8080
+    volumes:
+      - ~/docker-file-share/java:/home
+    environment:
+      TZ: "Asia/Seoul"
+    stdin_open: true
+    tty: true
+    network_mode: my-local-network
+#    command:
+#      -
