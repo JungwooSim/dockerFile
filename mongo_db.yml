@@ -11,8 +11,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: bigha
       MONGO_INITDB_ROOT_PASSWORD: bigha
     container_name: "my_mongodb"
-    networks:
-      - my-local-network
+    network_mode: my-local-network
 
   mongo-express:
     image: mongo-express
@@ -23,5 +22,4 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: bigha
       ME_CONFIG_MONGODB_ADMINPASSWORD: bigha
     container_name: "my_mongodb_express"
-    networks:
-      - my-local-network
+    network_mode: my-local-network
