@@ -1,0 +1,96 @@
+version: '3.1'
+services:
+  elasticsearch_1:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    container_name: my_elasticsearch_1
+    network_mode: my-local-network
+    restart: always
+    volumes:
+      - ~/docker-file-share/elasticsearch/ES_01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+#    restart: always
+    environment:
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    stdin_open: true
+    tty: true
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.0
+    container_name: my_kibana
+    ports:
+      - 5601:5601
+    network_mode: my-local-network
+    restart: always
+    environment:
+      ELASTICSEARCH_HOSTS: http://my_elasticsearch_1:9200
+    volumes:
+      - ~/docker-file-share/kibana:/usr/share/kibana/data
+#    environment:
+#      - node.name=es01
+#      - cluster.name=es-docker-cluster
+#      - discovery.seed_hosts=es02,es03
+#      - cluster.initial_master_nodes=es01,es02,es03
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - data01:/usr/share/elasticsearch/data
+#    ports:
+#      - 9200:9200
+#    networks:
+#      - elastic
+#  es02:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+#    container_name: es02
+#    environment:
+#      - node.name=es02
+#      - cluster.name=es-docker-cluster
+#      - discovery.seed_hosts=es01,es03
+#      - cluster.initial_master_nodes=es01,es02,es03
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - data02:/usr/share/elasticsearch/data
+#    networks:
+#      - elastic
+#  es03:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+#    container_name: es03
+#    environment:
+#      - node.name=es03
+#      - cluster.name=es-docker-cluster
+#      - discovery.seed_hosts=es01,es02
+#      - cluster.initial_master_nodes=es01,es02,es03
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - data03:/usr/share/elasticsearch/data
+#    networks:
+#      - elastic
+#
+#volumes:
+#  data01:
+#    driver: local
+#  data02:
+#    driver: local
+#  data03:
+#    driver: local
+#
+#networks:
+#  elastic:
+#    driver: bridge
