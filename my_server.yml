@@ -1,0 +1,16 @@
+version: '3.5'
+
+services:
+  spring-batch-study:
+    image: cscd053/my_backend_server:0.1
+    container_name: my_spring-batch-study
+#    restart: always
+    ports:
+      - 8003:8080
+    volumes:
+      - ~/docker-file-share/spring-batch-study:/home
+    environment:
+      TZ: "Asia/Seoul"
+    network_mode: my-local-network
+    stdin_open: true
+    tty: true
