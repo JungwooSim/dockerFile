@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  study_db:
+    image: mysql:5.7.32
+    container_name: study_mysql
+    restart: always
+    ports:
+      - 3307:3306
+    network_mode: my-local-network
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: big
+      MYSQL_PASSWORD: big
+      character-set-server: utf8mb4
+      collation-server : utf8mb4_unicode_ci
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ~/docker-file-share/study_mysql/datadir:/var/lib/mysql
+      - ~/docker-file-share/study_mysql/home:/home
+    stdin_open: true
+    tty: true
