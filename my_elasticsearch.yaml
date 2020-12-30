@@ -6,11 +6,13 @@ services:
     network_mode: my-local-network
     restart: always
     volumes:
-      - ~/docker-file-share/elasticsearch/ES_01:/usr/share/elasticsearch/data
+      - ~/docker-file-share/elasticsearch/ES_01/data:/usr/share/elasticsearch/data
+      - ~/docker-file-share/elasticsearch/ES_01/home:/home
     ports:
       - 9200:9200
     environment:
       - discovery.type=single-node
+      - TZ=Asia/Seoul
     ulimits:
       memlock:
         soft: -1
@@ -26,8 +28,10 @@ services:
     restart: always
     environment:
       ELASTICSEARCH_HOSTS: http://my_elasticsearch_1:9200
+      TZ: "Asia/Seoul"
     volumes:
-      - ~/docker-file-share/kibana:/usr/share/kibana/data
+      - ~/docker-file-share/kibana/data:/usr/share/kibana/data
+      - ~/docker-file-share/kibana/home:/home
 #    environment:
 #      - node.name=es01
 #      - cluster.name=es-docker-cluster
