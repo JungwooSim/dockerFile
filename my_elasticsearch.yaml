@@ -6,13 +6,21 @@ services:
     network_mode: my-local-network
     restart: always
     volumes:
+      - type: bind
+        source: /Users/bigpenguin/docker-file-share/elasticsearch/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
       - ~/docker-file-share/elasticsearch/ES_01/data:/usr/share/elasticsearch/data
       - ~/docker-file-share/elasticsearch/ES_01/home:/home
     ports:
       - 9200:9200
     environment:
       - discovery.type=single-node
-      - TZ=Asia/Seoul
+      - network.host=0.0.0.0
+      - http.cors.enabled=true
+      - http.cors.allow-origin= "/.*/"
+      - bootstrap.memory_lock=true
+      - http.cors.allow-headers= "X-Requested-With,X-Auth-Token,Content-Type, Content-Length, Authorization"
     ulimits:
       memlock:
         soft: -1
