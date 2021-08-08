@@ -13,3 +13,5 @@ services:
     environment:
       TZ: "Asia/Seoul"
     network_mode: my-local-network
+    cap_add:
+      - NET_ADMIN
