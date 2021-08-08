@@ -16,3 +16,8 @@ services:
     cap_add: # 보안 이슈로 추가
       - NET_ADMIN
     privileged: true # 보안 이슈로 추가
+
+# CLI 추가 내용
+# service docker start # (docker run)
+# docker exec -it -u root my_jenkins /bin/bash # (root 접속)
+# usermod -a -G docker jenkins (jenkins 유저에게 docker 권한 부여)
