@@ -13,5 +13,6 @@ services:
     environment:
       TZ: "Asia/Seoul"
     network_mode: my-local-network
-    cap_add:
+    cap_add: # 보안 이슈로 추가
       - NET_ADMIN
+    privileged: true # 보안 이슈로 추가
