@@ -1,0 +1,83 @@
+# 주의할점 : node가 마운트되는 순서가 가장 아래에 설정한 node 부터 이므로 master 는 가장 아래에 있는 node 에게 부여
+
+version: '2.2'
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ~/docker-file-share/elasticsearch/es_node_test_01/data:/usr/share/elasticsearch/data
+      - ~/docker-file-share/elasticsearch/es_node_test_01/home:/home
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    container_name: es02
+    environment:
+      - node.name=es02
+      - node.master=false
+      - node.data=true
+      - node.ingest=false
+      - node.ml=false
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ~/docker-file-share/elasticsearch/es_node_test_02/data:/usr/share/elasticsearch/data
+      - ~/docker-file-share/elasticsearch/es_node_test_02/home:/home
+    networks:
+      - elastic
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    container_name: es03
+    environment:
+      - node.name=es03
+      - node.master=true
+      - node.data=false
+      - node.ingest=false
+      - node.ml=false
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ~/docker-file-share/elasticsearch/es_node_test_03/data:/usr/share/elasticsearch/data
+      - ~/docker-file-share/elasticsearch/es_node_test_03/home:/home
+    networks:
+      - elastic
+
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
